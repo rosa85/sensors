@@ -20,11 +20,11 @@ public class CentralMonitoringService {
 
     public void start() {
 
-        publisher.stream().subscribe( m -> {
+        publisher.stream().subscribe( measurement  -> {
 
-            switch (m.type()){
-                case HUMIDITY -> checkThreshold(m.type(), humidityThreshold,  m.value());
-                case TEMPERATURE -> checkThreshold(m.type(), temperatureThreshold,  m.value());
+            switch (measurement.type()){
+                case HUMIDITY -> checkThreshold(measurement.type(), humidityThreshold,  measurement.value());
+                case TEMPERATURE -> checkThreshold(measurement.type(), temperatureThreshold,  measurement.value());
             }
 
         });
@@ -32,7 +32,7 @@ public class CentralMonitoringService {
 
     private void checkThreshold(SensorType type, int threshold, int value) {
         if (value > threshold) {
-            logger.info(String.format("!!!! threshold %s for %s has been crossed by value %s !!!!!", threshold, type, value));
+            logger.warning(String.format("ALARM!! threshold exceeded: value=%d, threshold=%d, type=%s", value, threshold, type));
         }
     }
 }
