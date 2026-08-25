@@ -1,4 +1,4 @@
-package com.ks.warehouse;
+package com.ks.sensor;
 
 import com.ks.model.Measurement;
 import reactor.core.publisher.Flux;

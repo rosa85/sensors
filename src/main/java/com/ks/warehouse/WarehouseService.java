@@ -1,8 +1,8 @@
-package com.ks.sensor;
+package com.ks.warehouse;
 
 import com.ks.model.Measurement;
 import com.ks.publisher.MeasurementPublisher;
-import com.ks.warehouse.SensorListener;
+import com.ks.sensor.SensorListener;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 

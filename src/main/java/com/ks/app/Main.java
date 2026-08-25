@@ -1,22 +1,23 @@
 package com.ks.app;
 
+import com.ks.alarm.AlarmNotifier;
+import com.ks.alarm.LoggingAlarmNotifier;
 import com.ks.model.SensorType;
 import com.ks.monitoring.CentralMonitoringService;
 import com.ks.publisher.InMemoryMeasurementPublisher;
 import com.ks.publisher.MeasurementPublisher;
 import com.ks.sensor.DefaultMeasurementParser;
-import com.ks.sensor.WarehouseService;
+import com.ks.warehouse.WarehouseService;
 import com.ks.simulator.SensorSimulator;
-import com.ks.warehouse.SensorListener;
-import com.ks.warehouse.UdpSensorListener;
+import com.ks.sensor.SensorListener;
+import com.ks.sensor.UdpSensorListener;
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class Main {
 
-    public static void main(String[] args) {
-
-        System.out.println("Press any key to close");
+    public static void main(String[] args) throws IOException {
 
         SensorSimulator.simulate();
 
@@ -28,8 +29,9 @@ public class Main {
         WarehouseService warehouseService = new WarehouseService(List.of(temperatureListener, humidityListener), publisher);
         warehouseService.start();
 
-        CentralMonitoringService centralService = new CentralMonitoringService(35,50, publisher);
-        centralService.start();
+        AlarmNotifier alarmNotifier = new LoggingAlarmNotifier();
 
+        CentralMonitoringService centralService = new CentralMonitoringService(35,50, publisher, alarmNotifier);
+        centralService.start();
     }
 }

@@ -31,7 +31,7 @@ public class SensorSimulator {
         });
         thread.start();
     }
-    private static void send(String message, int port) {
+    public static void send(String message, int port) {
         try (DatagramChannel channel = DatagramChannel.open()) {
             channel.configureBlocking(false);
             ByteBuffer buffer = ByteBuffer.wrap(message.getBytes());
